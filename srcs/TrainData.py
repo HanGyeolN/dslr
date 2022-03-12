@@ -10,8 +10,10 @@ class TrainData():
     fd = open(filepath, 'rt')
     first_line = fd.readline()
     self.index = first_line[:-1].split(',')
+    # Index 파싱
     for idx in self.index:
       self.data[idx] = []
+    # 데이터 파싱
     for line in fd.readlines():
       splited = line[:-1].split(',')
       length = len(splited)
