@@ -15,6 +15,14 @@ class TrainData():
       for i in range(length):
         self.data[self.index[i]].append(splited[i])
 
+  def group_by(self, feature: str):
+    groups = []
+    for group in self.data[feature]:
+      if group not in groups:
+        groups.append(group)
+    for feature in self.data:
+      self.data[]
+
   def is_int(self, val):
     """
     문자열이 int 타임으로 바뀔 수 있는지 확인한다.
