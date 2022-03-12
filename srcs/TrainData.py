@@ -4,6 +4,9 @@ class TrainData():
     self.data = {}
   
   def read_csv(self, filepath: str):
+    """
+    csv 데이터를 string 타입으로 읽어옵니다.
+    """
     fd = open(filepath, 'rt')
     first_line = fd.readline()
     self.index = first_line[:-1].split(',')
@@ -16,12 +19,27 @@ class TrainData():
         self.data[self.index[i]].append(splited[i])
 
   def group_by(self, feature: str):
+    """
+    현재 데이터를 특정 feature의 그룹별로 묶어서 반환합니다.
+    """
+    grouped_data = {}
     groups = []
+    # group 종류 뽑아내기
     for group in self.data[feature]:
       if group not in groups:
         groups.append(group)
-    for feature in self.data:
-      self.data[]
+    # 그룹별 딕셔너리 생성
+    for group in groups:
+      grouped_data[group] = {}
+      for f in self.data:
+        if f != feature:
+          grouped_data[group][f] = []
+    # 값 집어넣기
+    for i in range(len(self.data[feature])):
+      for f in self.data:
+        if f != feature:
+          grouped_data[self.data[feature][i]][f].append(self.data[f][i])
+    return grouped_data
 
   def is_int(self, val):
     """
