@@ -3,7 +3,7 @@ import sys
 import matplotlib.pyplot as plt
 from TrainData import TrainData
 import seaborn as sns
-from pandas import DataFrame
+import pandas as pd
 
 def show_groups_hist(data: dict, feature: str) -> None:
     plt.hist(list(filter(None, data["Ravenclaw"][feature])), bins = 10, alpha = 0.7, label="Ravenclaw", color="blue")
@@ -24,6 +24,7 @@ def sol0(train_data: TrainData) -> None:
   """
   data = train_data.group_by("Hogwarts House")
   show_groups_hist(data, "Care of Magical Creatures")
+  # show_all_hist(data)
 
 def show_all_scatter(data: dict) -> None:
   features = list(data["Ravenclaw"].keys())[5:]
@@ -55,18 +56,30 @@ def sol1(train_data: TrainData) -> None:
   plt.legend()
   plt.show()
 
-def sol2(train_data: TrainData) -> None:
+def sol2(filepath: str) -> None:
   """
   From this visualization, what features are you going to use for your logistic regression?
   """
-  df = DataFrame(train_data.data)
-  print(df)
+  df = pd.read_csv(filepath)
+  icol = [x for x in range(6, 19)]
+  icol.append(1)
+  sns.set(rc={'figure.figsize':(10,10)})
+  fig = sns.pairplot(df[:50], hue = "Hogwarts House", dropna = True)
+  fig.savefig("pairplot.png")
+  plt.show()
 
 
 if __name__ == "__main__":
-  if (len(sys.argv) != 2):
+  if (len(sys.argv) != 3):
     raise Exception("Invalid arguments")
   train_data = TrainData()
   train_data.read_csv(sys.argv[1])
   train_data.convert_type()
-  sol2(train_data)
+  if sys.argv[2] == "histogram":
+    sol0(train_data)
+  elif sys.argv[2] == "scatterplot":
+    sol1(train_data)
+  elif sys.argv[2] == "pairplot":
+    sol2(sys.argv[1])
+  else:
+    raise Exception("Invalid plot method")
