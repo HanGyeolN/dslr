@@ -1,11 +1,16 @@
-from cProfile import label
 import sys
 import matplotlib.pyplot as plt
 from TrainData import TrainData
+from describe import Analysis
 import seaborn as sns
 import pandas as pd
 
 def show_groups_hist(data: dict, feature: str) -> None:
+    ana = Analysis()
+    groups_data = {}
+    for group in ["Ravenclaw", "Slytherin", "Gryffindor", "Hufflepuff"]:
+      groups_data[group] = ana.describe(list(filter(None, data[group][feature])))
+    ana.describe_group(groups_data)
     plt.hist(list(filter(None, data["Ravenclaw"][feature])), bins = 10, alpha = 0.7, label="Ravenclaw", color="blue")
     plt.hist(list(filter(None, data["Slytherin"][feature])), bins = 10, alpha = 0.9, label="Slytherin", color="green")
     plt.hist(list(filter(None, data["Gryffindor"][feature])), bins = 10, alpha = 0.8, label="Gryffindor", color="red")

@@ -42,26 +42,42 @@ class Analysis():
       "Max": data_sorted[-1]
     }
 
-  def describe_all(self, data):
+  def make_describes(self, data: dict) -> dict:
     ret = {}
     for key in data:
       try:
+        print(f"key: {key}")
         ret[key] = analysis.describe(train_data.data[key])
       except Exception as e:
         continue
+    return ret
+
+  def print_features(self, features: list) -> None:
     str = f"{'':<10}"
-    for key in ret:
+    for key in features:
       if len(key) > 17:
         key = key[:12] + ".."
       str += f"{key:>17.15s}"
     print(str)
-    keys = ret[key].keys()
+
+  def print_datas(self, data: dict) -> None:
+    key = list(data.keys())[0]
+    keys = data[key].keys()
     for key in keys:
       str = ""
       str += f"{key:<10s}"
-      for k in ret:
-        str += f"{ret[k][key]:>17.6f}"
+      for k in data:
+        str += f"{data[k][key]:>17.6f}"
       print(str)
+
+  def describe_all(self, data: dict):
+    ret = self.make_describes(data)
+    self.print_features(list(ret.keys()))
+    self.print_datas(ret)
+  
+  def describe_group(self, data: dict) -> None:
+    self.print_features(list(data.keys()))
+    self.print_datas(data)
 
 if __name__ == "__main__":
   if len(sys.argv) != 2:
