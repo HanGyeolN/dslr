@@ -1,7 +1,19 @@
+
 class TrainData():
   def __init__(self):
-    self.index = []
     self.data = {}
+
+  def get_numerics(self):
+    """
+    데이터에서 숫자 데이터만 필터링해 가져옵니다.
+    """
+    filtered_data = TrainData()
+    indexes = list(self.data.keys())
+    for feature in indexes:
+      feature_type = type(self.data[feature][0])
+      if (feature_type == type(1) or feature_type == type(1.0)):
+        filtered_data.data[feature] = self.data[feature].copy()
+    return (filtered_data)
   
   def read_csv(self, filepath: str):
     """
@@ -9,16 +21,16 @@ class TrainData():
     """
     fd = open(filepath, 'rt')
     first_line = fd.readline()
-    self.index = first_line[:-1].split(',')
-    # Index 파싱
-    for idx in self.index:
+    indexes = first_line[:-1].split(',')
+    # 딕셔너러 초기화
+    for idx in indexes:
       self.data[idx] = []
     # 데이터 파싱
     for line in fd.readlines():
       splited = line[:-1].split(',')
       length = len(splited)
       for i in range(length):
-        self.data[self.index[i]].append(splited[i])
+        self.data[indexes[i]].append(splited[i])
 
   def group_by(self, feature: str):
     """

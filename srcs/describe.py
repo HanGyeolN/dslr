@@ -44,11 +44,13 @@ class Analysis():
 
   def make_describes(self, data: dict) -> dict:
     ret = {}
-    for key in data:
+    for key in list(data.keys()):
+      # print(key)
       try:
-        print(f"key: {key}")
-        ret[key] = analysis.describe(train_data.data[key])
+        ret[key] = self.describe(data[key])
+        # print(ret)
       except Exception as e:
+        print(e)
         continue
     return ret
 
