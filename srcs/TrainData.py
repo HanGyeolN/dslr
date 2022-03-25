@@ -3,6 +3,12 @@ class TrainData():
   def __init__(self):
     self.data = {}
 
+  def pop(self, feature: str) -> None:
+    """
+    데이터에서 특정 feature 요소를 제거합니다.
+    """
+    self.data.pop(feature)
+
   def get_numerics(self):
     """
     데이터에서 숫자 데이터만 필터링해 가져옵니다.

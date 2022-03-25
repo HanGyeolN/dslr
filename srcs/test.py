@@ -5,7 +5,8 @@ ana = Analysis()
 data = TrainData()
 data.read_csv("./datasets/dataset_train.csv")
 data.convert_type()
+# y = data.data["Hogwart House"]
 ret = data.get_numerics()
-# print(ret.data)
-ana.describe_all(ret.data)
-# print(ret.data)
+ret.pop("Index")
+# x = ret
+
