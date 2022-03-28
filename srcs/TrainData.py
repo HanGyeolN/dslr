@@ -8,6 +8,48 @@ class TrainData():
     데이터에서 특정 feature 요소를 제거합니다.
     """
     self.data.pop(feature)
+  
+  def drop_na(self) -> None:
+    """
+    내부 데이터에서 값이 비어있는 행을 제거한다.
+    """
+    for feature in self.data.keys():
+      idxes = []
+      for i in range(len(self.data[feature])):
+        if self.data[feature][i] is None:
+          idxes.append(i)
+      while len(idxes):
+        self.del_row(idxes.pop())
+      
+  
+  def del_row(self, index: int):
+    """
+    특정 행을 제거합니다.
+    """
+    for feature in self.data.keys():
+      self.data[feature].pop(index)
+
+  def row(self, idx: int) -> list:
+    """
+    특정 데이터 행을 리스트로 가져온다.
+    """
+    return [self.data[x][idx] for x in self.data.keys()]
+
+  def categorize(self, feature: str) -> list:
+    """
+    특정 데이터 열을 숫자로 카테고리화 한 리스트를 반환한다.
+    except - 값이 비어있는 경우 예외처리
+    """
+    data = self.data[feature]
+    category = {}
+    ret = []
+    category_num = 0
+    for el in data:
+      if el not in category:
+        category[el] = category_num
+        category_num += 1
+      ret.append(category[el])
+    return ret
 
   def get_numerics(self):
     """
