@@ -1,3 +1,4 @@
+from Classifier import Classifier
 from TrainData import TrainData
 from describe import Analysis
 from LogisticRegression import LogisticRegression
@@ -12,10 +13,11 @@ data.drop_na()
 x = data.get_numerics()
 x.pop("Index")
 
-y = data.categorize("Hogwarts House")
-for i in range(len(y)):
-  if y[i] != 0:
-    y[i] = 1
+y, category_dict = data.categorize("Hogwarts House")
+house_classifier = Classifier()
+house_classifier.train(x, y, category_dict)
+house_classifier.save("test")
 
-logisreg = LogisticRegression()
-logisreg.train(x, y)
+
+# logisreg = LogisticRegression() # Ravenclaw 판별기
+# logisreg.train(x, y)

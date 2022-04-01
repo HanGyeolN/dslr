@@ -1,7 +1,9 @@
+from typing import Tuple
+
 
 class TrainData():
-  def __init__(self):
-    self.data = {}
+  def __init__(self, data: dict = {}):
+    self.data = data.copy()
 
   def pop(self, feature: str) -> None:
     """
@@ -35,7 +37,7 @@ class TrainData():
     """
     return [self.data[x][idx] for x in self.data.keys()]
 
-  def categorize(self, feature: str) -> list:
+  def categorize(self, feature: str) -> Tuple[list, dict]:
     """
     특정 데이터 열을 숫자로 카테고리화 한 리스트를 반환한다.
     except - 값이 비어있는 경우 예외처리
@@ -49,7 +51,7 @@ class TrainData():
         category[el] = category_num
         category_num += 1
       ret.append(category[el])
-    return ret
+    return (ret, category)
 
   def get_numerics(self):
     """
