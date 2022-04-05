@@ -1,5 +1,4 @@
 from math import exp, log1p
-from pyexpat import features
 from TrainData import TrainData
 
 class Model():
@@ -39,9 +38,12 @@ class Normalizer():
     return ret
 
 class LogisticRegression():
-  def __init__(self):
-    self.norms = []
-    self.model = Model()
+  def __init__(self, norms: list = [], model: dict = {}):
+    self.norms = norms.copy()
+    if len(model) == 0:
+      self.model = Model()
+    else:
+      self.model = Model(model)
   
   def load(self, model: dict):
     """
@@ -101,8 +103,9 @@ class LogisticRegression():
     """
     features = list(x.data.keys())
     # features 갯수만큼 weights 생성
-    for i in range(len(features)):
-      self.model.weight.append(0.0)
+    if (len(self.model.weight) == 0):
+      for i in range(len(features)):
+        self.model.weight.append(0.0)
     
     # loss 계산
     sum = 0
