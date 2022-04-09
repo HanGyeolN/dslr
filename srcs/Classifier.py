@@ -38,14 +38,27 @@ class Classifier():
     for category in self.logi_regs.keys():
       self.logi_regs[category].train(x, self.labels[category], epoch = epoch)
 
-  def predict(self, x: list):
+  def predict(self, x: list) -> str:
     """
     어떤 범주에 속할지 예측한다.
     """
     result = {}
     for name in self.logi_regs.keys():
       result[name] = self.logi_regs[name].predict(x)
-    print(result)
+    max_val = result[name]
+    max_category = name
+    for key in result.keys():
+      if (result[key] >= max_val):
+        max_val = result[key]
+        max_category = key
+    # print(result) # 예측결과 확인
+    return max_category
+  
+  def predict_many(self, x: TrainData) -> list:
+    ret = []
+    for i in range(x.len()):
+      ret.append(self.predict(x.row(i)))
+    return ret
     
   def load(self, filepath: str):
     """

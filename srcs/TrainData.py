@@ -5,6 +5,12 @@ class TrainData():
   def __init__(self, data: dict = {}):
     self.data = data.copy()
 
+  def len(self) -> int:
+    key_list = list(self.data.keys())
+    if (len(key_list) == 0):
+      raise(Exception("TrainData.len(): empty data"))
+    return len(self.data[key_list[0]])
+
   def pop(self, feature: str) -> None:
     """
     데이터에서 특정 feature 요소를 제거합니다.
@@ -22,7 +28,6 @@ class TrainData():
           idxes.append(i)
       while len(idxes):
         self.del_row(idxes.pop())
-      
   
   def del_row(self, index: int):
     """
